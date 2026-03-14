@@ -65,11 +65,11 @@ export function OrganiserStepUpload({ error, onStartLoading }: OrganiserStepUplo
 
       <label className="block text-sm font-medium text-text-primary">Event Date</label>
       <input
-        type="text"
+        type="date"
         value={eventDate}
         onChange={(e) => setEventDate(e.target.value)}
-        placeholder="e.g. 2025-04-12"
-        className="w-full rounded border border-stone-300 px-3 py-2 text-text-primary"
+        min={new Date().toISOString().slice(0, 10)}
+        className="w-full rounded border border-stone-300 px-3 py-2 text-text-primary [color-scheme:light]"
       />
 
       <label className="block text-sm font-medium text-text-primary">Event Type</label>
