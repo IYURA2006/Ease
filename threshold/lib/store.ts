@@ -15,3 +15,7 @@ export function setPassport(record: PassportRecord): void {
 export function hasPassport(id: string): boolean {
   return passportStore.has(id);
 }
+
+export function getAllPassports(): PassportRecord[] {
+  return Array.from(passportStore.values());
+}

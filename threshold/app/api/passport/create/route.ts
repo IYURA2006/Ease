@@ -4,9 +4,9 @@ import QRCode from "qrcode";
 import { setPassport } from "@/lib/store";
 import type { SensoryFingerprint } from "@/lib/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
 export async function POST(request: Request) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ||
+    (() => { const u = new URL(request.url); return `${u.protocol}//${u.host}`; })();
   try {
     const body = await request.json();
     const {
