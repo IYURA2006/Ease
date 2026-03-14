@@ -71,7 +71,7 @@ export default function ArrivalPage() {
 
         <div className="grid gap-8 lg:grid-cols-5">
           {/* Left — form */}
-          <div className="lg:col-span-2">
+          <div className="relative z-10 lg:col-span-2">
             <div className="rounded-xl border border-stone-200 bg-surface p-6 shadow-sm">
               <ArrivalPlannerForm
                 start={start}
@@ -108,7 +108,7 @@ export default function ArrivalPage() {
             )}
 
             {/* Map — Edinburgh by default, updates with coloured route once planned */}
-            <div className="overflow-hidden rounded-xl border border-stone-200 shadow-sm">
+            <div className="isolate overflow-hidden rounded-xl border border-stone-200 shadow-sm">
               <RouteMap
                 className="h-[420px] w-full"
                 routeSegments={result?.routeSegments}

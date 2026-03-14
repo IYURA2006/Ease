@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { EventCard } from "@/components/EventCard";
 import { fetchEvents } from "@/lib/eventApi";
 import type { Event as EventType, EventFilters } from "@/lib/types";
-import { QRScanner } from "@/components/QRScanner";
 
 const SENSORY_OPTIONS = [
   { value: "all", label: "All intensities" },
@@ -69,7 +68,6 @@ export default function DiscoverPage() {
   const [sensoryLevel, setSensoryLevel] = useState<EventFilters["sensoryLevel"]>("all");
   const [eventType, setEventType] = useState<string>("all");
   const [accessibility, setAccessibility] = useState<string[]>([]);
-  const [qrOpen, setQrOpen] = useState(false);
 
   const loadEvents = useCallback(async () => {
     setLoading(true);
@@ -171,15 +169,6 @@ export default function DiscoverPage() {
               </button>
             ))}
           </div>
-          <div className="mt-2 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setQrOpen(true)}
-              className="rounded-md border border-stone-300 bg-surface px-3 py-2 text-sm font-medium text-text-primary hover:bg-stone-100"
-            >
-              📷 Scan show QR code
-            </button>
-          </div>
         </div>
       </section>
 
@@ -212,7 +201,6 @@ export default function DiscoverPage() {
         )}
       </section>
 
-      {qrOpen && <QRScanner onClose={() => setQrOpen(false)} onScan={() => setQrOpen(false)} />}
     </div>
   );
 }
