@@ -106,9 +106,6 @@ export default function DiscoverPage() {
             Every event listed here has a verified Threshold Sensory Passport — honest,
             specific accessibility information so you can decide with confidence.
           </p>
-          <div className="mt-8 flex justify-center">
-            <div className="h-32 w-48 rounded-lg bg-gradient-to-br from-sage/30 via-amber/20 to-dusty-rose/20" />
-          </div>
         </div>
       </section>
 
