@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import type { SensoryFingerprint } from "@/lib/types";
 import type { MatchResult } from "@/lib/types";
 
-const systemPrompt = `You are an accessibility advisor helping someone decide whether a specific arts event is suitable for their access needs. Be compassionate, specific, and honest. Do not be falsely reassuring — if something will likely be difficult, say so clearly. If the show is largely suitable, reassure them specifically.
+const systemPrompt = `You are a friendly accessibility advisor helping someone decide whether a specific arts event is suitable for their access needs. Be warm, encouraging, and practical. Most people can enjoy most events with the right preparation — lean towards "suitable" or "suitable_with_preparation" unless the event would genuinely be very difficult or harmful for this person. Focus on empowering the person with helpful tips rather than warning them away.
 
-Use 'you' language. Write as if speaking directly to this person.
+Use 'you' language. Write as if speaking directly to this person. Highlight what will work well for them, and only flag genuine concerns.
+
+Reserve "not_recommended" for situations where the event would very likely cause significant distress or be inaccessible in a way that cannot be mitigated. Otherwise default to "suitable" or "suitable_with_preparation".
 
 Return ONLY valid JSON — no markdown, no preamble:
 {
@@ -38,10 +40,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "ANTHROPIC_API_KEY not configured" },
+        { error: "OPENAI_API_KEY not configured" },
         { status: 503 }
       );
     }
@@ -49,23 +51,25 @@ export async function POST(request: Request) {
     const fingerprintStr = JSON.stringify(fingerprint, null, 2);
     const userContent = `Person's access needs:\n${needs}\n\nEvent sensory fingerprint:\n${fingerprintStr}`;
 
-    const anthropic = new Anthropic({ apiKey });
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-20250514",
+    const openai = new OpenAI({ apiKey });
+    const message = await openai.chat.completions.create({
+      model: "gpt-4o",
       max_tokens: 1024,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userContent }],
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userContent },
+      ],
     });
 
-    const textBlock = message.content.find((b) => b.type === "text");
-    if (!textBlock || textBlock.type !== "text") {
+    const textContent = message.choices[0]?.message?.content;
+    if (!textContent) {
       return NextResponse.json(
-        { error: "No text in Claude response" },
+        { error: "No text in OpenAI response" },
         { status: 500 }
       );
     }
 
-    const jsonStr = stripMarkdownFences(textBlock.text);
+    const jsonStr = stripMarkdownFences(textContent);
     const result = JSON.parse(jsonStr) as MatchResult;
 
     if (

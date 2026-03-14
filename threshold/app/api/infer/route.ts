@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import type { SensoryFingerprint } from "@/lib/types";
 import { SENSORY_FINGERPRINT_SCHEMA } from "@/lib/fingerprintSchema";
 
@@ -54,31 +54,32 @@ export async function POST(request: Request) {
     const userContent =
       `Show: ${showTitle}\nVenue: ${venue}\n\n` + sections.join("\n\n---\n\n");
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "ANTHROPIC_API_KEY not configured" },
+        { error: "OPENAI_API_KEY not configured" },
         { status: 503 }
       );
     }
 
-    const anthropic = new Anthropic({ apiKey });
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-20250514",
+    const openai = new OpenAI({ apiKey });
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
       max_tokens: 4096,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userContent }],
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userContent },
+      ],
     });
 
-    const textBlock = message.content.find((b) => b.type === "text");
-    if (!textBlock || textBlock.type !== "text") {
+    const raw = completion.choices[0]?.message?.content ?? "";
+    if (!raw) {
       return NextResponse.json(
-        { error: "No text in Claude response" },
+        { error: "No text in OpenAI response" },
         { status: 500 }
       );
     }
 
-    const raw = textBlock.text;
     const jsonStr = stripMarkdownFences(raw);
     const fingerprint = JSON.parse(jsonStr) as SensoryFingerprint;
 

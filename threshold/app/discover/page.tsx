@@ -73,8 +73,22 @@ export default function DiscoverPage() {
 
   const loadEvents = useCallback(async () => {
     setLoading(true);
-    const data = await fetchEvents();
-    setEvents(data);
+    const [data, passportsRes] = await Promise.all([
+      fetchEvents(),
+      fetch("/api/passports").then((r) => r.json()).catch(() => []),
+    ]);
+    // Convert created passports to Event shape and prepend them
+    const created: EventType[] = (passportsRes as import("@/lib/types").PassportRecord[]).map((p) => ({
+      id: p.id,
+      title: p.showTitle,
+      venue: p.venue,
+      date: p.date ?? "",
+      duration: p.duration,
+      eventType: (p.eventType ?? "other") as EventType["eventType"],
+      fingerprint: p.fingerprint,
+      passportId: p.id,
+    }));
+    setEvents([...created, ...data]);
     setLoading(false);
   }, []);
 

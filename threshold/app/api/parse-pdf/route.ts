@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -20,12 +22,11 @@ export async function POST(request: Request) {
     if (name.endsWith(".pdf")) {
       const buffer = Buffer.from(await file.arrayBuffer());
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const pdfParse = require("pdf-parse") as (b: Buffer) => Promise<{ text: string }>;
+      const pdfParse = require("pdf-parse/lib/pdf-parse.js");
       const data = await pdfParse(buffer);
       return NextResponse.json({ text: data.text });
     }
 
-    // .docx not parsed in basic setup — could add mammoth later
     if (name.endsWith(".docx")) {
       return NextResponse.json(
         { error: "DOCX support: extract text manually or add mammoth" },
