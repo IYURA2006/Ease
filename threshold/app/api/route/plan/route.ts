@@ -5,7 +5,7 @@ import { getVenueAccessContext } from "@/lib/routing/overpass";
 import { applyHeuristics } from "@/lib/routing/heuristics";
 import type { RouteMode, PlannedRouteResult, RouteSegment, SegmentDifficulty } from "@/lib/routing/types";
 
-const VALID_MODES: RouteMode[] = ["walking", "wheelchair", "lower_stimulus"];
+const VALID_MODES: RouteMode[] = ["walking", "wheelchair", "lower_stimulus", "bus", "car"];
 
 // Loose bounding box covering the City of Edinburgh council area
 const EDINBURGH_BOUNDS = { north: 56.00, south: 55.87, east: -3.00, west: -3.45 };

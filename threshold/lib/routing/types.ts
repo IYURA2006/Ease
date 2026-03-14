@@ -1,4 +1,4 @@
-export type RouteMode = "walking" | "wheelchair" | "lower_stimulus";
+export type RouteMode = "walking" | "wheelchair" | "lower_stimulus" | "bus" | "car";
 
 export type SegmentDifficulty = "easy" | "medium" | "hard";
 

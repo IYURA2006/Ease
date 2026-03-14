@@ -21,6 +21,19 @@ export function applyHeuristics(
   let confidenceLevel: "high" | "medium" | "low" = "high";
 
   // Mode-specific notes
+  if (mode === "car") {
+    notes.push("Driving route calculated.");
+    warnings.push("Check parking near the venue before you travel — central Edinburgh has limited spaces.");
+    transportNotes.push("Consider drop-off/pick-up points if you are not parking.");
+  }
+
+  if (mode === "bus") {
+    notes.push("Road corridor shown — actual bus route may differ.");
+    warnings.push("This is a driving-road estimate. Check Lothian Buses or Traveline Scotland for exact bus numbers, stops, and live times.");
+    transportNotes.push("Use the Lothian Buses app or Traveline Scotland for real-time departures.");
+    transportNotes.push("Tap-on / tap-off contactless is accepted on all Lothian Buses services.");
+  }
+
   if (mode === "wheelchair") {
     notes.push("A wheelchair-friendly route profile was used.");
     warnings.push("Wheelchair suitability depends on the accuracy of OpenStreetMap data.");

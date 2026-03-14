@@ -4,6 +4,8 @@ const PROFILE_MAP: Record<string, string> = {
   walking: "foot-walking",
   wheelchair: "wheelchair",
   lower_stimulus: "foot-walking",
+  bus: "driving-car",   // ORS has no transit profile; driving-car gives the road corridor
+  car: "driving-car",
 };
 
 // Friendly messages keyed to ORS error codes

@@ -14,6 +14,8 @@ const MODE_LABELS: Record<string, string> = {
   walking: "Walking",
   wheelchair: "Wheelchair",
   lower_stimulus: "Lower-stimulus",
+  bus: "By bus",
+  car: "By car",
 };
 
 function formatDistance(meters: number): string {
