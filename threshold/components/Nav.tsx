@@ -64,11 +64,11 @@ export function Nav() {
               Captions
             </Link>
             <Link
-              href="/route"
+              href="/arrival"
               className="text-text-secondary hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-2 rounded text-sm font-medium"
               role="menuitem"
             >
-              Safe Route
+              Safe route
             </Link>
           </div>
 

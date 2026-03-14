@@ -20,6 +20,7 @@ export function OrganiserStepUpload({ error, onStartLoading }: OrganiserStepUplo
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!showTitle.trim() || !venue.trim()) return;
+    if (!eventDate.trim()) return;
     if (!scriptFile && !listingUrl.trim()) return;
 
     onStartLoading({
@@ -63,20 +64,26 @@ export function OrganiserStepUpload({ error, onStartLoading }: OrganiserStepUplo
         required
       />
 
-      <label className="block text-sm font-medium text-text-primary">Event Date</label>
+      <label className="block text-sm font-medium text-text-primary">
+        Event Date <span className="text-deep-red">*</span>
+      </label>
       <input
         type="date"
         value={eventDate}
         onChange={(e) => setEventDate(e.target.value)}
         min={new Date().toISOString().slice(0, 10)}
         className="w-full rounded border border-stone-300 px-3 py-2 text-text-primary [color-scheme:light]"
+        required
       />
 
-      <label className="block text-sm font-medium text-text-primary">Event Type</label>
+      <label className="block text-sm font-medium text-text-primary">
+        Event Type <span className="text-deep-red">*</span>
+      </label>
       <select
         value={eventType}
         onChange={(e) => setEventType(e.target.value)}
         className="w-full rounded border border-stone-300 px-3 py-2 text-text-primary"
+        required
       >
         <option value="theatre">Theatre</option>
         <option value="music">Music</option>
@@ -120,7 +127,7 @@ export function OrganiserStepUpload({ error, onStartLoading }: OrganiserStepUplo
       <button
         type="submit"
         className="mt-4 rounded-md bg-teal px-4 py-2 text-sm font-medium text-white hover:bg-teal/90 disabled:opacity-50"
-        disabled={(!scriptFile && !listingUrl.trim()) || !showTitle.trim() || !venue.trim()}
+        disabled={(!scriptFile && !listingUrl.trim()) || !showTitle.trim() || !venue.trim() || !eventDate.trim()}
       >
         Generate Passport
       </button>
