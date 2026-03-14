@@ -73,7 +73,7 @@ export default function DiscoverPage() {
 
   const loadEvents = useCallback(async () => {
     setLoading(true);
-    const data = await fetchEvents({});
+    const data = await fetchEvents();
     setEvents(data);
     setLoading(false);
   }, []);

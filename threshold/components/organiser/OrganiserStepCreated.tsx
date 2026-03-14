@@ -8,7 +8,6 @@ interface OrganiserStepCreatedProps {
 }
 
 export function OrganiserStepCreated({
-  passportId,
   url,
   qrCode,
   onClose,

@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const MIN_FONT_SIZE = 24;
 const MAX_FONT_SIZE = 48;
 const DEFAULT_FONT_SIZE = 32;
 
-export default function CaptionsPage() {
+function CaptionsContent() {
   const searchParams = useSearchParams();
   const passportId = searchParams.get("passport");
   const [captions, setCaptions] = useState<string[]>([]);
@@ -188,5 +188,13 @@ export default function CaptionsPage() {
           </div>
         )}
     </div>
+  );
+}
+
+export default function CaptionsPage() {
+  return (
+    <Suspense>
+      <CaptionsContent />
+    </Suspense>
   );
 }

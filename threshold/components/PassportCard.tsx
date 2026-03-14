@@ -17,7 +17,7 @@ export function PassportCard({
   return (
     <PassportCardInner
       record={record}
-      qrCode={qrCode ?? undefined}
+      qrCode={qrCode}
       showActions={showActions}
     />
   );

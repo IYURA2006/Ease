@@ -42,7 +42,7 @@ export function EventCard({ event, passportId }: EventCardProps) {
       </p>
 
       <div className="mt-3 flex flex-wrap gap-1.5" role="list" aria-label="Sensory levels">
-        {DIMENSIONS.map(({ key, icon: Icon, label }) => (
+        {DIMENSIONS.map(({ key, icon: Icon }) => (
           <span
             key={key}
             className="flex items-center gap-1 rounded bg-stone-100 px-1.5 py-0.5 text-[10px] text-text-secondary"

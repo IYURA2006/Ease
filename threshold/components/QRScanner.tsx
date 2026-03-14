@@ -19,7 +19,6 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
 
   useEffect(() => {
     let cancelled = false;
-    let animationId: number;
 
     async function startCamera() {
       try {
@@ -36,7 +35,7 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
           await videoRef.current.play();
         }
         setLoading(false);
-      } catch (e) {
+      } catch {
         setError("Camera access is needed to scan QR codes.");
         setLoading(false);
       }
@@ -46,7 +45,6 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
     return () => {
       cancelled = true;
       streamRef.current?.getTracks().forEach((t) => t.stop());
-      cancelAnimationFrame(animationId);
     };
   }, []);
 
@@ -57,6 +55,7 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    const ctx2d = ctx;
 
     let id: number;
     let jsQRModule: typeof import("jsqr") | null = null;
@@ -69,8 +68,8 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
       if (jsQRModule && video.readyState === video.HAVE_ENOUGH_DATA) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx2d.drawImage(video, 0, 0);
+        const imageData = ctx2d.getImageData(0, 0, canvas.width, canvas.height);
         const result = jsQRModule.default(imageData.data, canvas.width, canvas.height);
         if (result?.data) {
           const url = result.data;

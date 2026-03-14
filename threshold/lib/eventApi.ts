@@ -1,9 +1,9 @@
 // Teammate: add your API endpoint and key to .env.local and replace this stub
 
-import type { Event, EventFilters } from "./types";
+import type { Event } from "./types";
 import { sampleEvents } from "./sampleEvents";
 
-export async function fetchEvents(_filters?: EventFilters): Promise<Event[]> {
+export async function fetchEvents(/* filters?: EventFilters */): Promise<Event[]> {
   // If EVENT_API_KEY and VENUE_API_URL are set, call real API here
   if (process.env.EVENT_API_KEY && process.env.VENUE_API_URL) {
     try {

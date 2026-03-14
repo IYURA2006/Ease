@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { PassportCard } from "@/components/PassportCard";
 import { MatchResultDisplay } from "@/components/MatchResultDisplay";
-import type { PassportRecord, SensoryFingerprint, MatchResult as MatchResultType } from "@/lib/types";
+import type { PassportRecord, MatchResult as MatchResultType } from "@/lib/types";
 import { sampleEvents } from "@/lib/sampleEvents";
 
 function buildSampleRecord(sampleId: string): PassportRecord | null {
