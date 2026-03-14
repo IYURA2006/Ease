@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const HAS_MAPS = typeof process !== "undefined" && !!process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
 
-export default function RoutePage() {
+function RouteContent() {
   const searchParams = useSearchParams();
   const venueParam = searchParams.get("venue") ?? "";
   const [origin, setOrigin] = useState("");
@@ -239,5 +239,13 @@ export default function RoutePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RoutePage() {
+  return (
+    <Suspense>
+      <RouteContent />
+    </Suspense>
   );
 }

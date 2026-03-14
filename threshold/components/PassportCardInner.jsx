@@ -20,6 +20,9 @@ const DIMENSIONS = [
   { dimKey: "intervalAndTiming", icon: Clock, label: "Interval & Timing" },
 ];
 
+/**
+ * @param {{ record: import("@/lib/types").PassportRecord, qrCode?: string | null, showActions?: boolean }} props
+ */
 export function PassportCardInner({ record, qrCode = null, showActions = true }) {
   const { fingerprint, showTitle, venue, duration, date, id, createdAt } = record;
 

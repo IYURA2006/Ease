@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const $ = cheerio.load(html);
 
     // Prefer accessibility/description/synopsis
-    let title =
+    const title =
       $("meta[property='og:title']").attr("content") ||
       $("title").text() ||
       "";

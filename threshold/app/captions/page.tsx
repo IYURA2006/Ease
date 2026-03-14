@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const MIN_FONT_SIZE = 24;
 const MAX_FONT_SIZE = 48;
 const DEFAULT_FONT_SIZE = 32;
 
-export default function CaptionsPage() {
+function CaptionsContent() {
   const searchParams = useSearchParams();
   const passportId = searchParams.get("passport");
   const [captions, setCaptions] = useState<string[]>([]);
@@ -95,14 +95,14 @@ export default function CaptionsPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-captions-bg">
-      <div className="flex flex-1 flex-col lg:flex-row">
+    <div className="flex h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] flex-col overflow-hidden bg-captions-bg">
+      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
         {/* Live captions — dominant */}
         <div
-          className={`flex flex-1 flex-col ${highContrast ? "bg-black text-white" : "bg-captions-bg text-captions-text"}`}
+          className={`flex min-h-0 flex-1 flex-col ${highContrast ? "bg-black text-white" : "bg-captions-bg text-captions-text"}`}
           ref={containerRef}
         >
-          <div className="flex flex-1 flex-col justify-end p-6">
+          <div className="flex min-h-0 flex-1 flex-col justify-end overflow-auto p-6">
             <div className="space-y-2">
               {captions.slice(-4).map((line, i) => (
                 <p
@@ -115,7 +115,7 @@ export default function CaptionsPage() {
               ))}
             </div>
           </div>
-          <div className="flex items-center justify-between border-t border-white/20 p-4">
+          <div className="flex shrink-0 items-center justify-between border-t border-white/20 p-4">
             <button
               type="button"
               onClick={toggleListening}
@@ -163,8 +163,8 @@ export default function CaptionsPage() {
         </div>
 
         {/* Script / context panel */}
-        <div className="w-full border-t border-white/20 lg:w-96 lg:border-l lg:border-t-0">
-          <div className="flex h-full flex-col p-4">
+        <div className="flex min-h-0 w-full shrink-0 flex-col border-t border-white/20 lg:w-96 lg:border-l lg:border-t-0">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-4">
             <h2 className="text-sm font-medium text-white/90">Script context</h2>
             {scriptLoading ? (
               <p className="mt-2 text-white/70">Loading…</p>
@@ -190,5 +190,13 @@ export default function CaptionsPage() {
           </div>
         )}
     </div>
+  );
+}
+
+export default function CaptionsPage() {
+  return (
+    <Suspense>
+      <CaptionsContent />
+    </Suspense>
   );
 }
