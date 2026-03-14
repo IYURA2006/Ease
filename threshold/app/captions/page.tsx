@@ -72,7 +72,9 @@ export default function CaptionsPage() {
       }
     };
 
-    recognition.onerror = () => {};
+    recognition.onerror = (e: SpeechRecognitionErrorEvent) => {
+      console.error("Speech recognition error:", e.error);
+    };
     recognitionRef.current = recognition;
     return () => {
       recognition.abort();

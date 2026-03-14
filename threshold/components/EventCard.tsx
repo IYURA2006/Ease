@@ -49,7 +49,7 @@ export function EventCard({ event, passportId }: EventCardProps) {
             role="listitem"
           >
             <Icon className="h-3 w-3" aria-hidden />
-            <SensoryLevelBadge level={fingerprint[key].level} />
+            <SensoryLevelBadge level={fingerprint[key]?.level} />
           </span>
         ))}
       </div>

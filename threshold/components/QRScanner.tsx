@@ -19,7 +19,6 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
 
   useEffect(() => {
     let cancelled = false;
-    let animationId: number;
 
     async function startCamera() {
       try {
@@ -27,7 +26,7 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
           video: { facingMode: "environment" },
         });
         if (cancelled) {
-          stream.getTracks().forEach((t) => t.stop());
+          stream.getTracks().forEach((t: MediaStreamTrack) => t.stop());
           return;
         }
         streamRef.current = stream;
@@ -45,8 +44,7 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
     startCamera();
     return () => {
       cancelled = true;
-      streamRef.current?.getTracks().forEach((t) => t.stop());
-      cancelAnimationFrame(animationId);
+      streamRef.current?.getTracks().forEach((t: MediaStreamTrack) => t.stop());
     };
   }, []);
 
@@ -61,9 +59,13 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
     let id: number;
     let jsQRModule: typeof import("jsqr") | null = null;
 
-    import("jsqr").then((m) => {
-      jsQRModule = m;
-    });
+    import("jsqr")
+      .then((m) => {
+        jsQRModule = m;
+      })
+      .catch(() => {
+        setError("QR scanning failed to initialise. Please refresh and try again.");
+      });
 
     function tick() {
       if (jsQRModule && video.readyState === video.HAVE_ENOUGH_DATA) {
