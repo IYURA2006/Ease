@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
+import OpenAI from "openai/index.js";
 import type { SensoryFingerprint } from "@/lib/types";
 import { SENSORY_FINGERPRINT_SCHEMA } from "@/lib/fingerprintSchema";
 

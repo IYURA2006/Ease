@@ -128,7 +128,7 @@ export function PassportCardInner({ record, qrCode = null, showActions = true })
             Open in Captions mode
           </a>
           <a
-            href={`/route?venue=${encodeURIComponent(venue)}`}
+            href={`/arrival?venue=${encodeURIComponent(venue)}`}
             className="rounded bg-teal px-3 py-2 text-sm font-medium text-white hover:bg-teal/90"
           >
             Get safe route
