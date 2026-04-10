@@ -45,7 +45,6 @@ export function QRScanner({ onClose, onScan }: QRScannerProps) {
     return () => {
       cancelled = true;
       streamRef.current?.getTracks().forEach((t) => t.stop());
-      cancelAnimationFrame(animationId);
     };
   }, []);
 
