@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import type { PlannedRouteResult, RouteMode } from "@/lib/routing/types";
@@ -19,6 +19,14 @@ const RouteMap = dynamic(
 );
 
 export default function ArrivalPage() {
+  return (
+    <Suspense>
+      <ArrivalPageInner />
+    </Suspense>
+  );
+}
+
+function ArrivalPageInner() {
   const searchParams = useSearchParams();
   const venueParam = searchParams.get("venue") ?? "";
 
